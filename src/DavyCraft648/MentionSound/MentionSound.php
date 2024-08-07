@@ -4,6 +4,7 @@ namespace DavyCraft648\MentionSound;
 
 use pocketmine\command\{Command, CommandSender};
 use dktapps\pmforms\{CustomForm, CustomFormResponse, element\Input, element\Toggle, FormIcon, MenuForm, MenuOption};
+use JsonException;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\network\mcpe\protocol\PlaySoundPacket;
@@ -27,8 +28,7 @@ class MentionSound extends PluginBase implements Listener
 	public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
 	{
 		if (!($sender instanceof Player)) return false;
-		/** @var Player $player */
-		$player = $sender;
+        $player = $sender;
 		if (isset($args[0])) {
 			if (mb_strtolower($args[0]) === "settings") {
 				$this->settingsForm($player);
@@ -42,8 +42,8 @@ class MentionSound extends PluginBase implements Listener
 		return true;
 	}
 
-	public function helpForm(Player $player)
-	{
+	public function helpForm(Player $player): void
+    {
 		$form = new MenuForm(
 			"MentionSound",
 			"",
@@ -62,8 +62,8 @@ class MentionSound extends PluginBase implements Listener
 		$player->sendForm($form);
 	}
 
-	private function soundListForm(Player $player)
-	{
+	private function soundListForm(Player $player): void
+    {
 		$form = new MenuForm(
 			"Sound List",
 			implode("\n", $this->soundList),
@@ -73,8 +73,8 @@ class MentionSound extends PluginBase implements Listener
 		$player->sendForm($form);
 	}
 
-	private function settingsForm(Player $player)
-	{
+	private function settingsForm(Player $player): void
+    {
 		$userSettings = $this->getUserSettings($player->getName());
 		$form = new CustomForm(
 			"MentionSound Settings",
@@ -117,8 +117,11 @@ class MentionSound extends PluginBase implements Listener
 		$player->sendForm($form);
 	}
 
-	private function setUserSettings(string $name, bool $nameMention, bool $hereMention, string $nameMentionSound, string $hereMentionSound, float $pitch)
-	{
+    /**
+     * @throws JsonException
+     */
+    private function setUserSettings(string $name, bool $nameMention, bool $hereMention, string $nameMentionSound, string $hereMentionSound, float $pitch): void
+    {
 		$userSettings = $this->getUserSettings($name);
 		$userSettings->set("nameMention", $nameMention);
 		$userSettings->set("hereMention", $hereMention);

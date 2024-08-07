@@ -1,7 +1,8 @@
 name: MentionSound
 version: 0.1.0
 main: DavyCraft648\MentionSound\MentionSound
-api: 4.0.0
+api: 5.0.0
+# Update pm4 -> pm5 by xBibou : discord.gg/pocketmine | discord.gg/nephelia
 website: https://github.com/DavyCraft648/MentionSound
 description: A sound notifier when someone mentions you
 author: DavyCraft648
